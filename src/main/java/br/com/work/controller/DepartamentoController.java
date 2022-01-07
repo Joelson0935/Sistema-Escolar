@@ -3,6 +3,8 @@ package br.com.work.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +34,7 @@ public class DepartamentoController {
 	private DepartamentoService service;
 
 	@PostMapping("/Salvar")
-	public ResponseEntity<Departamento> salvarDepartamento(@RequestBody Departamento departamento) {
+	public ResponseEntity<Departamento> salvarDepartamento(@Valid @RequestBody Departamento departamento) {
 		departamento = service.salvarDepartamento(departamento);
 		return new ResponseEntity<Departamento>(departamento, HttpStatus.CREATED);
 	}
@@ -78,7 +80,7 @@ public class DepartamentoController {
 	}
 
 	@PutMapping("/Atualizar/{departamentoId}")
-	public ResponseEntity<Departamento> atualizarDepartamentoPorId(@PathVariable Long departamentoId,
+	public ResponseEntity<Departamento> atualizarDepartamentoPorId(@Valid @PathVariable Long departamentoId,
 			@RequestBody Departamento departamento) {
 		Departamento departamento1 = service.buscarDepartamentoPorId(departamentoId);
 		if (departamentoId != null) {

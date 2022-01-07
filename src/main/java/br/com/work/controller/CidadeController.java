@@ -3,6 +3,8 @@ package br.com.work.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +34,7 @@ public class CidadeController {
 	private CidadeService service;
 
 	@PostMapping("/Salvar")
-	public ResponseEntity<Cidade> salvarCidade(@RequestBody Cidade cidade) {
+	public ResponseEntity<Cidade> salvarCidade(@Valid @RequestBody Cidade cidade) {
 		cidade = service.salvarCidade(cidade);
 		return new ResponseEntity<Cidade>(cidade, HttpStatus.CREATED);
 	}
@@ -77,7 +79,7 @@ public class CidadeController {
 	}
 
 	@PutMapping("/Atualizar/{cidadeId}")
-	public ResponseEntity<Cidade> atualizarCidadePorId(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
+	public ResponseEntity<Cidade> atualizarCidadePorId(@Valid @PathVariable Long cidadeId, @RequestBody Cidade cidade) {
 		Cidade cidade1 = service.buscarCidadePorId(cidadeId);
 		if (cidadeId != null) {
 			cidade.setId(cidadeId);

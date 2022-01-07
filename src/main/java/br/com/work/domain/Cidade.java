@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -18,9 +21,13 @@ public class Cidade implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
+	@NotNull(message = "Insira o nome da cidade")
+	@NotBlank(message = "Insira o nome da cidade")
+	@Size(min = 3, message = "Insira o nome correto.")
 	private String nome;
 
+	@NotNull(message = "Por favor insira o estado.")
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@ManyToOne
 	private Estado estado;

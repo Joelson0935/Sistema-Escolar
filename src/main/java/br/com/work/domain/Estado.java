@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Estado implements Serializable {
@@ -17,7 +20,9 @@ public class Estado implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	@NotNull(message = "Insira o nome do estado")
+	@NotBlank(message = "Insira o nome do estado")
+	@Size(min = 3, message = "Insira o nome correto.")
 	private String nome;
 
 	@OneToMany(mappedBy = "estado")

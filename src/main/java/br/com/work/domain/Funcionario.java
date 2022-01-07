@@ -10,8 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -25,21 +29,28 @@ public class Funcionario implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Size(min = 15, max = 60, message = "Insira o nome Completo")
 	private String nome_completo;
+	@NotNull(message = "Idade inexistente")
+	@Max(value = 110, message = "Numeração de Idade não aceita.")
+	@Min(value = 1, message = "Numeração de Idade não aceita.")
 	private Integer idade;
 	@Enumerated(EnumType.STRING)
 	private Genero genero;
-	@JsonFormat(pattern = "000.000.000-00")
+	@Pattern(regexp = "[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}", message = "Insira o seu cpf corretamente")
 	private String cpf;
-	@JsonFormat(pattern = "00.000.000-00")
+	@Pattern(regexp = "[0-9]{2}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}", message = "Insira o seu rg corretamente.")
 	private String rg;
+	@NotNull(message = "Por favor insira o nome da cidade.")
 	@OneToOne
 	private Cidade cidade;
+	@NotNull(message = "Por favor insira o nome do estado.")
 	@OneToOne
 	private Estado estado;
 	private String logradouro;
 	@Enumerated(EnumType.STRING)
 	private Profissao profissao;
+	@NotNull(message = "Por favor insira o departamento.")
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@ManyToOne
 	private Departamento departamento;
