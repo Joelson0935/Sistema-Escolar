@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,5 +31,10 @@ public class ExcessaoController {
 		}
 		return new ResponseEntity<ListaErros>(listaErros, HttpStatus.BAD_REQUEST);
 	}
-
+	
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<Erro> notReadable(HttpMessageNotReadableException e, HttpServletRequest request){
+		Erro erro = new Erro("Enumerador escrito errado.", HttpStatus.BAD_REQUEST.value(), LocalDate.now());
+		return new ResponseEntity<Erro>(erro, HttpStatus.BAD_REQUEST);
+	}
 }

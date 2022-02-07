@@ -1,0 +1,7 @@
+package br.com.work.domain.enuns;
+
+public enum Serie {
+
+	PRIMEIRA, SEGUNDA, TERCEIRA, QUARTA, QUINTA, SEXTA, SETIMA, OITAVA, PRIMEIRO_GRAU, SEGUNDO_GRAU, TERCEIRO_GRAU;
+	
+}

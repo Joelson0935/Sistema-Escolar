@@ -2,6 +2,7 @@ package br.com.work.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,6 +21,8 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.work.domain.enuns.Genero;
+import br.com.work.domain.enuns.Serie;
+import br.com.work.domain.enuns.Turma;
 import br.com.work.domain.enuns.Turno;
 
 @Entity
@@ -41,15 +44,12 @@ public class Aluno implements Serializable {
 	private String cpf;
 	@Pattern(regexp = "[0-9]{2}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}", message = "Insira o seu rg corretamente.")
 	private String rg;
-	@NotNull(message = "Por favor insira o nome da cidade.")
 	@OneToOne
-	private Cidade cidade;
-	@NotNull(message = "Por favor insira o nome do estado.")
-	@OneToOne
-	private Estado estado;
-	private String logradouro;
-	private String serie;
-	private String turma;
+	private Endereco endereco;
+	@Enumerated(EnumType.STRING)
+	private Serie serie;
+	@Enumerated(EnumType.STRING)
+	private Turma turma;
 	@Enumerated(EnumType.STRING)
 	private Turno turno;
 	@JsonFormat(pattern = "yyyy")
@@ -60,8 +60,8 @@ public class Aluno implements Serializable {
 		super();
 	}
 
-	public Aluno(Long id, String nome_completo, Integer idade, Genero genero, String cpf, String rg, Cidade cidade,
-			Estado estado, String logradouro, String serie, String turma, Turno turno, Date ano) {
+	public Aluno(Long id, String nome_completo, Integer idade, Genero genero, String cpf, String rg, Endereco endereco,
+			Serie serie, Turma turma, Turno turno, Date ano) {
 		super();
 		this.id = id;
 		this.nome_completo = nome_completo;
@@ -69,9 +69,7 @@ public class Aluno implements Serializable {
 		this.genero = genero;
 		this.cpf = cpf;
 		this.rg = rg;
-		this.cidade = cidade;
-		this.estado = estado;
-		this.logradouro = logradouro;
+		this.endereco = endereco;
 		this.serie = serie;
 		this.turma = turma;
 		this.turno = turno;
@@ -126,43 +124,27 @@ public class Aluno implements Serializable {
 		this.rg = rg;
 	}
 
-	public Cidade getCidade() {
-		return cidade;
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
-	public Estado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
-
-	public String getLogradouro() {
-		return logradouro;
-	}
-
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
-	}
-
-	public String getSerie() {
+	public Serie getSerie() {
 		return serie;
 	}
 
-	public void setSerie(String serie) {
+	public void setSerie(Serie serie) {
 		this.serie = serie;
 	}
 
-	public String getTurma() {
+	public Turma getTurma() {
 		return turma;
 	}
 
-	public void setTurma(String turma) {
+	public void setTurma(Turma turma) {
 		this.turma = turma;
 	}
 
@@ -184,10 +166,7 @@ public class Aluno implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+		return Objects.hash(ano, cpf, endereco, genero, id, idade, nome_completo, rg, serie, turma, turno);
 	}
 
 	@Override
@@ -199,12 +178,10 @@ public class Aluno implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Aluno other = (Aluno) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+		return Objects.equals(ano, other.ano) && Objects.equals(cpf, other.cpf)
+				&& Objects.equals(endereco, other.endereco) && genero == other.genero && Objects.equals(id, other.id)
+				&& Objects.equals(idade, other.idade) && Objects.equals(nome_completo, other.nome_completo)
+				&& Objects.equals(rg, other.rg) && serie == other.serie && turma == other.turma && turno == other.turno;
 	}
 
 }

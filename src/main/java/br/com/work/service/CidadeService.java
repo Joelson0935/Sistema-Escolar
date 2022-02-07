@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.work.domain.Cidade;
+import br.com.work.domain.Estado;
 import br.com.work.repository.CidadeRepository;
 
 @Service
@@ -17,9 +18,10 @@ public class CidadeService {
 	private CidadeRepository repository;
 
 	public Cidade salvarCidade(Cidade cidade) {
-		cidade.getEstado().getId();
-		cidade = repository.save(cidade);
-		return cidade;
+		Estado estado = new Estado(cidade.getEstado().getId(), cidade.getEstado().getNomeEstado());
+		Cidade cid = new Cidade(cidade.getId(), cidade.getNomeCidade(), cidade.getUf(), estado);
+		cid = repository.save(cid);
+		return cid;
 	}
 
 	public Cidade buscarCidadePorId(Long id) {

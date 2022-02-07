@@ -13,4 +13,5 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> 
 
 	@Query("select f from Funcionario f where f.nome_completo like %?1%")
 	List<Funcionario> buscarFuncionarioPorNome(String nome);
+
 }

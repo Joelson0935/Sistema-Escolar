@@ -1,8 +1,11 @@
 package br.com.work.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +17,8 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import br.com.work.domain.enuns.UnidadeFederativa;
+
 @Entity
 public class Cidade implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -21,13 +26,12 @@ public class Cidade implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
 	@NotNull(message = "Insira o nome da cidade")
 	@NotBlank(message = "Insira o nome da cidade")
 	@Size(min = 3, message = "Insira o nome correto.")
-	private String nome;
-
-	@NotNull(message = "Por favor insira o estado.")
+	private String nomeCidade;
+	@Enumerated(EnumType.STRING)
+	private UnidadeFederativa uf;
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@ManyToOne
 	private Estado estado;
@@ -36,10 +40,11 @@ public class Cidade implements Serializable {
 		super();
 	}
 
-	public Cidade(Long id, String nome, Estado estado) {
+	public Cidade(Long id, String nomeCidade, UnidadeFederativa uf, Estado estado) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.nomeCidade = nomeCidade;
+		this.uf =uf;
 		this.estado = estado;
 	}
 
@@ -51,12 +56,20 @@ public class Cidade implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getNomeCidade() {
+		return nomeCidade;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNomeCidade(String nomeCidade) {
+		this.nomeCidade = nomeCidade;
+	}
+
+	public UnidadeFederativa getUf() {
+		return uf;
+	}
+
+	public void setUf(UnidadeFederativa uf) {
+		this.uf = uf;
 	}
 
 	public Estado getEstado() {
@@ -69,10 +82,7 @@ public class Cidade implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+		return Objects.hash(id, nomeCidade);
 	}
 
 	@Override
@@ -84,12 +94,7 @@ public class Cidade implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Cidade other = (Cidade) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+		return Objects.equals(id, other.id) && Objects.equals(nomeCidade, other.nomeCidade);
 	}
 
 }

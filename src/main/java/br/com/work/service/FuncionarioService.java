@@ -17,7 +17,7 @@ public class FuncionarioService {
 	private FuncionarioRepository repository;
 
 	public Funcionario salvarFuncionario(Funcionario funcionario) {
-		funcionario.getDepartamento().getId();
+		funcionario.getEndereco().getId();
 		funcionario = repository.save(funcionario);
 		return funcionario;
 	}

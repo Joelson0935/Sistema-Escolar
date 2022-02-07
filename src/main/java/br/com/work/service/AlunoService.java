@@ -17,6 +17,7 @@ public class AlunoService {
 	private AlunoRepository repository;
 
 	public Aluno salvarAluno(Aluno aluno) {
+		aluno.getEndereco().getId();
 		aluno = repository.save(aluno);
 		return aluno;
 	}

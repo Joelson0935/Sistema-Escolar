@@ -1,7 +1,9 @@
 package br.com.work.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -37,20 +39,16 @@ public class Funcionario implements Serializable {
 	private Integer idade;
 	@Enumerated(EnumType.STRING)
 	private Genero genero;
+	@Column(unique = true)
 	@Pattern(regexp = "[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}", message = "Insira o seu cpf corretamente")
 	private String cpf;
+	@Column(unique = true)
 	@Pattern(regexp = "[0-9]{2}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}", message = "Insira o seu rg corretamente.")
 	private String rg;
-	@NotNull(message = "Por favor insira o nome da cidade.")
 	@OneToOne
-	private Cidade cidade;
-	@NotNull(message = "Por favor insira o nome do estado.")
-	@OneToOne
-	private Estado estado;
-	private String logradouro;
+	private Endereco endereco;
 	@Enumerated(EnumType.STRING)
 	private Profissao profissao;
-	@NotNull(message = "Por favor insira o departamento.")
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@ManyToOne
 	private Departamento departamento;
@@ -60,7 +58,7 @@ public class Funcionario implements Serializable {
 	}
 
 	public Funcionario(Long id, String nome_completo, Integer idade, Genero genero, String cpf, String rg,
-			Cidade cidade, Estado estado, String logradouro, Profissao profissao, Departamento departamento) {
+			Endereco endereco, Profissao profissao, Departamento departamento) {
 		super();
 		this.id = id;
 		this.nome_completo = nome_completo;
@@ -68,9 +66,7 @@ public class Funcionario implements Serializable {
 		this.genero = genero;
 		this.cpf = cpf;
 		this.rg = rg;
-		this.cidade = cidade;
-		this.estado = estado;
-		this.logradouro = logradouro;
+		this.endereco = endereco;
 		this.profissao = profissao;
 		this.departamento = departamento;
 	}
@@ -123,28 +119,12 @@ public class Funcionario implements Serializable {
 		this.rg = rg;
 	}
 
-	public Cidade getCidade() {
-		return cidade;
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
-	}
-
-	public Estado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
-
-	public String getLogradouro() {
-		return logradouro;
-	}
-
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	public Profissao getProfissao() {
@@ -165,10 +145,7 @@ public class Funcionario implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+		return Objects.hash(cpf, id, rg);
 	}
 
 	@Override
@@ -180,12 +157,7 @@ public class Funcionario implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Funcionario other = (Funcionario) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+		return Objects.equals(cpf, other.cpf) && Objects.equals(id, other.id) && Objects.equals(rg, other.rg);
 	}
 
 }

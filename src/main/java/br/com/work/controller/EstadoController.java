@@ -34,7 +34,7 @@ public class EstadoController {
 	private EstadoService service;
 
 	@PostMapping("/Salvar")
-	public ResponseEntity<Estado> salvarCidade(@Valid @RequestBody Estado estado) {
+	public ResponseEntity<Estado> salvarEstado(@Valid @RequestBody Estado estado) {
 		estado = service.salvarEstado(estado);
 		return new ResponseEntity<Estado>(estado, HttpStatus.CREATED);
 	}
@@ -60,7 +60,8 @@ public class EstadoController {
 	@GetMapping("/BuscarTodosEstados")
 	public ResponseEntity<List<EstadoDto>> buscarListaEstados() {
 		List<Estado> estados = service.buscarListaEstados();
-		List<EstadoDto> estadosDto = estados.stream().map(estado -> new EstadoDto(estado)).collect(Collectors.toList());
+		List<EstadoDto> estadosDto = estados.stream()
+				.map(estado -> new EstadoDto(estado)).collect(Collectors.toList());
 		if (estadosDto == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -79,7 +80,8 @@ public class EstadoController {
 	}
 
 	@PutMapping("/Atualizar/{estadoId}")
-	public ResponseEntity<Estado> atualizarEstadoPorId(@Valid @PathVariable Long estadoId, @RequestBody Estado estado) {
+	public ResponseEntity<Estado> atualizarEstadoPorId(@Valid @PathVariable Long estadoId,
+			@RequestBody Estado estado) {
 		Estado estado1 = service.buscarEstadoPorId(estadoId);
 		if (estadoId != null) {
 			estado.setId(estadoId);

@@ -8,11 +8,12 @@ public class EstadoDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String nome;
+	private String nomeEstado;
 
 	public EstadoDto(Estado estado) {
+		super();
 		this.id = estado.getId();
-		this.nome = estado.getNome();
+		this.nomeEstado = estado.getNomeEstado();
 	}
 
 	public Long getId() {
@@ -23,12 +24,12 @@ public class EstadoDto implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getNomeEstado() {
+		return nomeEstado;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNomeEstado(String nomeEstado) {
+		this.nomeEstado = nomeEstado;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package br.com.work.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 public class Estado implements Serializable {
@@ -20,11 +23,12 @@ public class Estado implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotNull(message = "Insira o nome do estado")
-	@NotBlank(message = "Insira o nome do estado")
-	@Size(min = 3, message = "Insira o nome correto.")
-	private String nome;
+	
+	@Size(min = 4, message = "Escreva o nome corretamente")
+	@NotBlank(message = "Escreva o nome corretamente")
+	private String nomeEstado;
 
+	@JsonProperty(access = Access.READ_ONLY)
 	@OneToMany(mappedBy = "estado")
 	private List<Cidade> cidades = new ArrayList<>();
 
@@ -32,10 +36,10 @@ public class Estado implements Serializable {
 		super();
 	}
 
-	public Estado(Long id, String nome) {
+	public Estado(Long id, @NotBlank String nomeEstado) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.nomeEstado = nomeEstado;
 	}
 
 	public Long getId() {
@@ -46,12 +50,12 @@ public class Estado implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getNomeEstado() {
+		return nomeEstado;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNomeEstado(String nomeEstado) {
+		this.nomeEstado = nomeEstado;
 	}
 
 	public List<Cidade> getCidades() {
@@ -60,10 +64,7 @@ public class Estado implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+		return Objects.hash(id, nomeEstado);
 	}
 
 	@Override
@@ -75,12 +76,7 @@ public class Estado implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Estado other = (Estado) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+		return Objects.equals(id, other.id) && Objects.equals(nomeEstado, other.nomeEstado);
 	}
 
 }
