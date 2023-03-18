@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>O Dom Do Saber</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+	crossorigin="anonymous"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+<script type="text/javascript"
+	src="js/localization/messages_pt_BR.min.js"></script>
+<script type="text/javascript" src="js/additional-methods.min.js"></script>
+<link rel="stylesheet" type="text/css" href="js/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/matriculaStyle.css">
+</head>
+<body id="image">
+
+	<!-- http://localhost:8082/Sistema-Escolar/ -->
+
+	<h1 id="titulo">Matricule se Aqui</h1>
+	<form id="form">
+
+		<label for="nome">Nome</label> <input type="text" name="nome"
+			id="nome"> <label for="idade">Idade</label> <input
+			type="text" name="idade" id="idade"> <label for="genero">Gênero</label>
+		<input type="text" name="genero" id="genero"> <label for="cpf">CPF</label>
+		<input type="text" name="cpf" id="cpf"> <label for="rg">RG</label>
+		<input type="text" name="rg" id="rg"> <label for="cidade">Cidade</label>
+		<input type="number" name="cidade" id="cidade"> <label
+			for="estado">Estado</label> <input type="number" name="estado"
+			id="estado"> <label for="serie">Série</label> <input
+			type="text" name="serie" id="serie"> <label for="turma">Turma</label>
+		<input type="text" name="turma" id=""> <label for="turno">Turno</label>
+		<input type="text" name="turno" id="turno"> <label for="ano">Ano</label>
+		<input type="text" name="ano" id="">
+		<div id="button">
+			<button type="button" onclick="cadastrar()">Salvar</button>
+		</div>
+	</form>
+
+
+	<script type="text/javascript">
+		function cadastrar() {
+			const nome = $('#nome').val();
+			const idade = $("#idade").val();
+			const genero = $("#genero").val();
+			const cpf = $('#cpf').val();
+			const rg = $('#rg').val();
+			const cidade = $('#cidade').val();
+			const estado = $('#estado').val();
+			const serie = $('#serie').val();
+			const turma = $('#turma').val();
+			const turno = $('#turno').val();
+			const ano = $('#ano').val();
+
+			$.ajax({
+				method : "POST",
+				url : "/Sistema-Escolar/Alunos/Salvar",
+				data : JSON.stringify({
+					nome_completo : nome,
+					idade : idade,
+					genero : genero,
+					cpf : cpf,
+					rg : rg,
+					cidade : cidade,
+					estado : estado,
+					serie : serie,
+					turma : turma,
+					turno : turno,
+					ano : ano
+				}),
+				contentType : "application/json; charset=utf-8",
+				success : function(response) {
+					alert('salvo com sucesso!');
+
+				}
+			}).fail(function(xhr, status, errorThrown) {
+				alert("Algo deu errado! " + xhr.responseText);
+				document.getElementById('form').reset();
+			});
+		}
+	</script>
+
+
+
+
+</body>
+</html>
